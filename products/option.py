@@ -1,10 +1,11 @@
 import numpy as np
 from models.black_scholes import BlackScholes
+from tools.static_def import PayoffType
 
 
 class Option:
 
-    def __init__(self, F, K, T, sigma, payout):
+    def __init__(self, F, K, T, sigma, payout=PayoffType.CALL):
         self.F = F
         self.K = K
         self.T = T
@@ -19,3 +20,9 @@ class Option:
 
     def model(self):
         return BlackScholes(self.T, self.F, self.K, self.sigma, self.payout)
+
+    if __name__ == "__main__":
+        from products.option import Option
+        call_option = Option(100, 100, 0.01, 0.2, PayoffType.PUT)
+        print(call_option.model().delta())
+        print(call_option.payout)

@@ -1,5 +1,6 @@
 import numpy as np
 import tools.distributions as td
+from tools.static_def import PayoffType
 
 
 class BlackScholes:
@@ -17,13 +18,22 @@ class BlackScholes:
     def d2(self):
         return self.d1() - self.sigma * np.sqrt(self.T)
 
+    def payout_sign(self):
+        return 1. if self.payout == PayoffType.CALL else -1.
+
     def price(self):
         d1 = self.d1()
         d2 = self.d2()
-        return self.F * td.N(d1) - self.K * td.N(d2) if self.payout == 1 else 0
+        payout = self.payout_sign()
+        return payout * (self.F * td.N(payout * d1) - self.K * td.N(payout * d2))
 
     def delta(self):
-        return td.N(self.d1())
+        payout = self.payout_sign()
+        return payout * td.N(payout * self.d1())
+
+    
+
+
 
 
 
