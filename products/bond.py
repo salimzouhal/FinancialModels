@@ -31,8 +31,8 @@ class Bond:
 if __name__ == "__main__":
     pillars = [i for i in range(1, 20)]
     rates = [0.01 * i for i in range(1, 20)]
-    curve = Curve(pillars, rates)
-    bond = Bond(5., 100., [1, 2, 3, 4, 5], curve)
+    curve = Curve(pillars, rates, "linear")
+    bond = Bond(5., 100., [1, 2, 3, 3.5, 4, 5], curve)
     print(bond.get_price())
 
 
