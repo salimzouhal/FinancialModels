@@ -14,6 +14,14 @@ class Curve:
             interpolator = Interpolator(self.pillars, self.values, self.convention)
             return interpolator.interpolate(pillar)
 
+    def parallel_bump(self, bump=0.0001):
+        self.values += bump
+        return
+
+    def pillar_bump(self, pillar, bump=0.0001):
+        self.values[self.pillars.index(pillar)] += bump
+        return
+
 
 
 

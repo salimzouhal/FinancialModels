@@ -3,7 +3,7 @@ from market.curve import Curve
 from scipy import optimize
 
 PRECISION = 1.e-5
-
+BUMP = 1.e-6
 
 class Bond:
 
@@ -41,14 +41,22 @@ class Bond:
         optimized = optimize.minimize(difference, np.array([zc_rates[0]]), bounds=optimize.Bounds([PRECISION], [np.inf]))
         return max(optimized.x[0], PRECISION)
 
+    def get_duration(self):
+        self.zc_curve.parallel_bump(BUMP)
+        price_up = self.get_price()
+        self.zc_curve.parallel_bump(-2 * BUMP)
+        price_down = self.get_price()
+        return (price_down - price_up) / BUMP
+
 
 if __name__ == "__main__":
-    pillars = [i for i in range(1, 20)]
-    rates = [0.01 * i for i in range(1, 20)]
+    pillars = [1., 2., 3., 4., 5., 6., 7., 8., 9., 10.]
+    rates = 0.01 * pillars
     curve = Curve(pillars, rates, "linear")
     bond = Bond(5., 100., [1, 2, 3, 3.5, 4, 5], curve)
     print(bond.get_price())
     print(bond.get_ytm())
+    print(bond.get_duration())
 
 
 
