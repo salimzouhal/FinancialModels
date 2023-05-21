@@ -1,4 +1,5 @@
 from tools.interpolator import Interpolator
+import numpy as np
 
 class Curve:
 
@@ -15,7 +16,7 @@ class Curve:
             return interpolator.interpolate(pillar)
 
     def parallel_bump(self, bump=0.0001):
-        self.values += bump
+        self.values = np.array(self.values) + bump
         return
 
     def pillar_bump(self, pillar, bump=0.0001):

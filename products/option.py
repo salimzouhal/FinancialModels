@@ -36,7 +36,7 @@ class Option:
             payout.append(self.payoff(s_maturity))
         return np.exp(-self.r * self.T) * np.mean(payout)
 
-    def price_at_spot(self, S):
+    def price_at_s(self, S):
         dummy_option = Option(S, self.K, self.T, self.r, self.sigma, self.payout, self.d)
         return dummy_option.price()
 
@@ -47,7 +47,7 @@ class Option:
         spots = np.linspace(1, 200, 100)
         payoffs = [self.payoff(spot) for spot in spots]
         plt.plot(spots, payoffs, 'r--', label='Payoff')
-        prices = [self.price_at_spot(spot) for spot in spots]
+        prices = [self.price_at_s(spot) for spot in spots]
         plt.plot(spots, prices, label='Price')
         plt.title('Option Payoff and Price')
         plt.xlabel('Underlying spot')

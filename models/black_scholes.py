@@ -33,7 +33,8 @@ class BlackScholes:
         d1 = self.d1()
         d2 = self.d2()
         payout = self.payout_sign()
-        return payout * (self.S * np.exp(-self.d * self.T) * td.N(payout * d1) - self.K * np.exp(-self.r * self.T) * td.N(payout * d2))
+        return payout * (self.S * np.exp(-self.d * self.T) * td.N(payout * d1)
+                         - self.K * np.exp(-self.r * self.T) * td.N(payout * d2))
 
     def delta(self):
         payout = self.payout_sign()
@@ -43,8 +44,6 @@ class BlackScholes:
         payout = self.payout_sign()
         return payout * td.N(payout * self.d1_at_s(s))
 
-    def payoff(self, S_T):
-        return max(S_T - self.K, 0)
 
 
 
