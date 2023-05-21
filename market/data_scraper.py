@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 class DataScraper:
     def __init__(self, api_key, ticker):
         self.api_key = api_key
@@ -17,6 +18,7 @@ class DataScraper:
         response = requests.get(url)
         data = json.loads(response.text)
         return data
+
 
 apikey = 'TGQVZHVO92AP5GWD'
 

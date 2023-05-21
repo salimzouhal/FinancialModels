@@ -3,7 +3,7 @@ import numpy as np
 
 class Interpolator:
 
-    def __init__(self, xs, ys, method):
+    def __init__(self, xs, ys, method="linear"):
         self.xs = xs
         self.ys = ys
         self.method = method
@@ -17,5 +17,11 @@ class Interpolator:
             return self.interpolate(x)
 
     def interpolate(self, x):
-        return np.interp(x, self.xs, self.ys) if self.method == "linear" else NotImplemented
+        if self.method == "linear":
+            return np.interp(x, self.xs, self.ys)
+        else:
+            return NotImplemented
+
+
+
 

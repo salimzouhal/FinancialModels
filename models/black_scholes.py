@@ -17,8 +17,14 @@ class BlackScholes:
     def d1(self):
         return (np.log(self.S / self.K) + (self.r - self.d + self.sigma ** 2 / 2) * self.T) / (self.sigma * np.sqrt(self.T))
 
+    def d1_at_s(self, s):
+        return (np.log(s / self.K) + (self.r - self.d + self.sigma ** 2 / 2) * self.T) / (self.sigma * np.sqrt(self.T))
+
     def d2(self):
         return self.d1() - self.sigma * np.sqrt(self.T)
+
+    def d2_at_s(self, s):
+        return self.d1_at_s() - self.sigma * np.sqrt(self.T)
 
     def payout_sign(self):
         return 1. if self.payout == PayoffType.CALL else -1.
@@ -32,6 +38,26 @@ class BlackScholes:
     def delta(self):
         payout = self.payout_sign()
         return payout * td.N(payout * self.d1())
+
+    def delta_at_s(self, s):
+        payout = self.payout_sign()
+        return payout * td.N(payout * self.d1_at_s(s))
+
+    def payoff(self, S_T):
+        return max(S_T - self.K, 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 
