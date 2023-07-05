@@ -28,6 +28,9 @@ class Option:
     def price(self):
         return self.model().price()
 
+    def delta(self):
+        return self.model().delta()
+
     def mc_price(self, nb_sims=10000):
         gbm = GBM(self.S, self.T, self.r, self.sigma)
         payout = []
@@ -58,18 +61,47 @@ class Option:
     def delta_plot(self):
         spots = np.linspace(1, 200, 100)
         deltas = [self.model().delta_at_s(spot) for spot in spots]
-        plt.plot(spots, deltas, 'r--', label='Payoff')
+        plt.plot(spots, deltas, 'r--', label='Delta')
         plt.title('Option delta')
         plt.xlabel('Underlying spot')
         plt.ylabel('Delta')
         plt.legend()
         plt.show()
 
+    def vega_plot(self):
+        spots = np.linspace(1, 200, 100)
+        vegas = [self.model().vega_at_s(spot) for spot in spots]
+        plt.plot(spots, vegas, 'r--', label='Vega')
+        plt.title('Option vega')
+        plt.xlabel('Underlying spot')
+        plt.ylabel('Vega')
+        plt.legend()
+        plt.show()
+
+    def gamma_plot(self):
+        spots = np.linspace(1, 200, 100)
+        gammas = [self.model().gamma_at_s(spot) for spot in spots]
+        plt.plot(spots, gammas, 'r--', label='Gamma')
+        plt.title('Option gamma')
+        plt.xlabel('Underlying spot')
+        plt.ylabel('Gamma')
+        plt.legend()
+        plt.show()
+
+    def rho_plot(self):
+        spots = np.linspace(1, 200, 100)
+        rhos = [self.model().rho_at_s(spot) for spot in spots]
+        plt.plot(spots, rhos, 'r--', label='Rho')
+        plt.title('Option rho')
+        plt.xlabel('Underlying spot')
+        plt.ylabel('Rho')
+        plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
-    put_option = Option(100, 100, 2, 0.01, 0.2, PayoffType.PUT)
-    print(put_option.model().delta())
-    print(put_option.payout)
-    print(put_option.mc_price())
-    print(put_option.price())
-    put_option.delta_plot()
+    call_option = Option(100, 100, 2, 0.01, 0.2, PayoffType.PUT)
+    print(call_option.model().delta())
+    print(call_option.mc_price(nb_sims=100000))
+    print(call_option.price())
+    call_option.rho_plot()
